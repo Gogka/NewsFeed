@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol NewsFetcherDelegate: class {
-    func fetcher(_ fetcher: NewsFetcher, didReceiveResponse response: ArticlesResponse)
-    func fetcher(_ fetcher: NewsFetcher, didReceiveError error: Error)
+    func fetcher(_ fetcher: NewsFetcher, didReceiveResponse response: ArticlesResponse, forQuery query: String)
+    func fetcher(_ fetcher: NewsFetcher, didReceiveError error: Error, forQuery query: String)
 }
 
 public class NewsFetcher {
@@ -34,8 +34,8 @@ public class NewsFetcher {
         session = URLSession(configuration: configuration)
     }
     
-    public func fetchArticles(byQuery query: String, page: Int = 1, sortBy sorting: Sorting = .publishedAt) {
-        guard !query.isEmpty else { delegate?.fetcher(self, didReceiveError: NewsError.emptyQuery); return }
+    public func fetchArticles(byQuery query: String, page: Int = 1, sortBy sorting: Sorting = .publishedAt, pageSize: Int = 20) {
+        guard !query.isEmpty else { delegate?.fetcher(self, didReceiveError: NewsError.emptyQuery, forQuery: query); return }
         mainSync {
             self.task?.cancel()
             self.timer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false, block: { [weak self] _ in
@@ -43,20 +43,21 @@ public class NewsFetcher {
                 let items = [
                     "q": query,
                     "sortBy": sorting.rawValue,
-                    "page": "\(page)"
+                    "page": "\(page)",
+                    "pageSize": "\(pageSize)"
                 ]
                 guard let url = self.urlComponents.add(items: items).url else {
-                    self.delegate?.fetcher(self, didReceiveError: NewsError.incorrectURL)
+                    self.delegate?.fetcher(self, didReceiveError: NewsError.incorrectURL, forQuery: query)
                     return
                 }
                 self.task = self.session.dataTask(with: url) { [weak self] dataWrapped, urlResponse, errorWrapped in
                     guard let sSelf = self else { return }
                     sSelf.task = nil
                     if let data = dataWrapped, let response = try? sSelf.decoder.decode(ArticlesResponse.self, from: data) {
-                        sSelf.delegate?.fetcher(sSelf, didReceiveResponse: response)
+                        sSelf.delegate?.fetcher(sSelf, didReceiveResponse: response, forQuery: query)
                     } else {
                         if (errorWrapped as NSError?)?.code == NSURLErrorCancelled { return }
-                        sSelf.delegate?.fetcher(sSelf, didReceiveError: errorWrapped ?? NewsError.noData)
+                        sSelf.delegate?.fetcher(sSelf, didReceiveError: errorWrapped ?? NewsError.noData, forQuery: query)
                     }
                 }
                 self.task?.resume()
