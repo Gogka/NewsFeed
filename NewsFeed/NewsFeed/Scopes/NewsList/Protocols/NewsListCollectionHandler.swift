@@ -1,5 +1,5 @@
 //
-//  NewsListCollectionDelegate.swift
+//  NewsListCollectionHandler.swift
 //  NewsFeed
 //
 //  Created by Игорь Томилин on 1/12/19.
@@ -9,6 +9,7 @@
 import UIKit
 
 protocol NewsListCollectionHandler {
+    var willShowLastItem: (() -> ())? { get set }
     func attach(collection: UICollectionView)
     func updateCollection(_ newArticles: [NewsElementViewModel])
     func clear()

@@ -35,9 +35,9 @@ public class NewsFetcher {
     }
     
     public func fetchArticles(byQuery query: String, page: Int = 1, sortBy sorting: Sorting = .publishedAt, pageSize: Int = 20) {
+        task?.cancel()
         guard !query.isEmpty else { delegate?.fetcher(self, didReceiveError: NewsError.emptyQuery, forQuery: query); return }
         mainSync {
-            self.task?.cancel()
             self.timer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false, block: { [weak self] _ in
                 guard let `self` = self else { return }
                 let items = [
@@ -53,8 +53,7 @@ public class NewsFetcher {
                 self.task = self.session.dataTask(with: url) { [weak self] dataWrapped, urlResponse, errorWrapped in
                     guard let sSelf = self else { return }
                     sSelf.task = nil
-                    if let data = dataWrapped, let response = try? sSelf.decoder.decode(ArticlesResponse.self, from: data) {
-                        sSelf.delegate?.fetcher(sSelf, didReceiveResponse: response, forQuery: query)
+                    if let data = dataWrapped, let response = try? sSelf.decoder.decode(ArticlesResponse.self, from: data) {                        sSelf.delegate?.fetcher(sSelf, didReceiveResponse: response, forQuery: query)
                     } else {
                         if (errorWrapped as NSError?)?.code == NSURLErrorCancelled { return }
                         sSelf.delegate?.fetcher(sSelf, didReceiveError: errorWrapped ?? NewsError.noData, forQuery: query)

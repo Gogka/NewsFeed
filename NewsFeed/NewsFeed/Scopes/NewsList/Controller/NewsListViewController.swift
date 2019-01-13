@@ -38,7 +38,11 @@ class NewsListViewController: UIViewController {
         assert(presenter != nil, "Presenter mustn't be nil")
         presenter?.attach(view: self)
         articlesCollectionView.map { collectionHandler.attach(collection: $0) }
+        collectionHandler.willShowLastItem = { [weak self] in
+            self?.presenter?.didShowLastNews()
+        }
         queryTextField?.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
+        queryTextField?.delegate = self
     }
     
     @objc
@@ -62,5 +66,12 @@ extension NewsListViewController: NewsListView {
     
     func addArticles(_ newArticles: [NewsElementViewModel]) {
         collectionHandler.addArticles(newArticles)
+    }
+}
+
+extension NewsListViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

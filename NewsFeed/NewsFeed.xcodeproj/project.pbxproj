@@ -25,7 +25,7 @@
 		28EB465C21EA17AC002CD1EF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB465B21EA17AC002CD1EF /* Result.swift */; };
 		28EB465E21EA19E9002CD1EF /* CommonNewsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB465D21EA19E9002CD1EF /* CommonNewsListModel.swift */; };
 		28EB466221EA1FB9002CD1EF /* NewsListCommonPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB466121EA1FB9002CD1EF /* NewsListCommonPresenter.swift */; };
-		28EB466521EA2199002CD1EF /* NewsListCollectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB466421EA2199002CD1EF /* NewsListCollectionDelegate.swift */; };
+		28EB466521EA2199002CD1EF /* NewsListCollectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB466421EA2199002CD1EF /* NewsListCollectionHandler.swift */; };
 		28EB466721EA21EE002CD1EF /* NewsElementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB466621EA21EE002CD1EF /* NewsElementViewModel.swift */; };
 		28EB466921EB1DE1002CD1EF /* NetworkLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB466821EB1DE1002CD1EF /* NetworkLayer.swift */; };
 		28EB466B21EB27EE002CD1EF /* CommonNewsListCollectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EB466A21EB27EE002CD1EF /* CommonNewsListCollectionHandler.swift */; };
@@ -67,7 +67,7 @@
 		28EB465B21EA17AC002CD1EF /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		28EB465D21EA19E9002CD1EF /* CommonNewsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNewsListModel.swift; sourceTree = "<group>"; };
 		28EB466121EA1FB9002CD1EF /* NewsListCommonPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCommonPresenter.swift; sourceTree = "<group>"; };
-		28EB466421EA2199002CD1EF /* NewsListCollectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCollectionDelegate.swift; sourceTree = "<group>"; };
+		28EB466421EA2199002CD1EF /* NewsListCollectionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCollectionHandler.swift; sourceTree = "<group>"; };
 		28EB466621EA21EE002CD1EF /* NewsElementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsElementViewModel.swift; sourceTree = "<group>"; };
 		28EB466821EB1DE1002CD1EF /* NetworkLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLayer.swift; sourceTree = "<group>"; };
 		28EB466A21EB27EE002CD1EF /* CommonNewsListCollectionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNewsListCollectionHandler.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 				28EB465421EA154B002CD1EF /* NewsListView.swift */,
 				28EB465621EA1673002CD1EF /* NewsListModel.swift */,
 				28EB465821EA16D6002CD1EF /* NewsListModelOutput.swift */,
-				28EB466421EA2199002CD1EF /* NewsListCollectionDelegate.swift */,
+				28EB466421EA2199002CD1EF /* NewsListCollectionHandler.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -287,7 +287,7 @@
 				28EB467221EB2C1D002CD1EF /* NewsCollectionViewCell.swift in Sources */,
 				28EB465321EA1530002CD1EF /* NewsListPresenter.swift in Sources */,
 				28EB464F21EA1381002CD1EF /* NewsListRouter.swift in Sources */,
-				28EB466521EA2199002CD1EF /* NewsListCollectionDelegate.swift in Sources */,
+				28EB466521EA2199002CD1EF /* NewsListCollectionHandler.swift in Sources */,
 				28EB464B21EA00F8002CD1EF /* NewsListAppearance.swift in Sources */,
 				28EB466721EA21EE002CD1EF /* NewsElementViewModel.swift in Sources */,
 				28EB466B21EB27EE002CD1EF /* CommonNewsListCollectionHandler.swift in Sources */,

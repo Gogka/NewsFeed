@@ -10,6 +10,8 @@ import UIKit
 
 class NewsElementViewModel {
     let title: String
+    let identifier: String?
+    var isSeen = false
     private var task: URLSessionDataTask?
     private var onCompletion: ((UIImage?) -> ())?
     private var image: UIImage?
@@ -17,6 +19,7 @@ class NewsElementViewModel {
     
     init(title: String, imageURL: URL?, didTapCellAction: @escaping (UICollectionViewCell) -> ()) {
         self.title = title
+        self.identifier = imageURL?.absoluteString
         self.didTapCellAction = didTapCellAction
         if let url = imageURL {
             task = NetworkLayer.shared.getImageTask(forURL: url, completion: { [weak self] image in
