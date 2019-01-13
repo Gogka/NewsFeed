@@ -25,7 +25,7 @@
                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="goU-Jh-lNK">
                         <rect key="frame" x="0.0" y="169.5" width="408" height="72.5"/>
                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wzH-2u-mt3">
-                            <rect key="frame" x="0.0" y="0.0" width="408" height="72.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="408" height="73"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xo-Sj-MSH">

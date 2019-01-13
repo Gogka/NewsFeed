@@ -10,8 +10,13 @@ import Foundation
 
 public class Article: Decodable {
     public class Source: Decodable {
-        let id: String?
-        let name: String
+        public let id: String?
+        public let name: String
+        
+        public init(id: String?, name: String) {
+            self.id = id
+            self.name = name
+        }
     }
     public let source: Source
     public let author: String
@@ -43,5 +48,16 @@ public class Article: Decodable {
         content = try container.decode(String.self, forKey: .content)
         imageURL = try container.decode(URL.self, forKey: .imageURL)
         sourceURL = try container.decode(URL.self, forKey: .sourceURL)
+    }
+    
+    public init(author: String, title: String, source: Source, description: String, imageURL: URL?, sourceURL: URL?, publishedDate: String, content: String) {
+        self.author = author
+        self.title = title
+        self.description = description
+        self.imageURL = imageURL
+        self.sourceURL = sourceURL
+        self.publishedDate = publishedDate
+        self.content = content
+        self.source = source
     }
 }
