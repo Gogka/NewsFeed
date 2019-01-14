@@ -12,14 +12,18 @@ import NewsKit
 class CommonNewsListModel: NewsListModel {
     private weak var output: NewsListModelOutput?
     private let fetcher: NewsFetcher
+    private let queue: DispatchQueue
+    private let articleRepository: ArticleRepository
     private let pageSize: Int
     private var currentPage: Int? = 0
     private var loadingPage: Int?
     private var previousQuery: String?
     
-    init(fetcher: NewsFetcher, pageSize: Int = 20) {
+    init(fetcher: NewsFetcher, pageSize: Int = 20, queue: DispatchQueue, articleRepository: ArticleRepository) {
         self.fetcher = fetcher
+        self.queue = queue
         self.pageSize = pageSize
+        self.articleRepository = articleRepository
         fetcher.delegate = self
     }
     
@@ -33,9 +37,21 @@ class CommonNewsListModel: NewsListModel {
     
     
     func getArticles(byQuery query: String) {
-        currentPage = 1
-        loadingPage = 1
-        fetcher.fetchArticles(byQuery: query, page: currentPage!, pageSize: pageSize)
+        if query.isEmpty {
+            fetcher.invalidate()
+            currentPage = nil
+            loadingPage = nil
+            articleRepository.fetchtArticles(completion: { [weak self] articles in
+                self?.queue.async { [weak self] in
+                    guard let sSelf = self else { return }
+                    sSelf.output?.didReceiveNewArticlesResult(.success(articles))
+                }
+            })
+        } else {
+            currentPage = 1
+            loadingPage = 1
+            fetcher.fetchArticles(byQuery: query, page: currentPage!, pageSize: pageSize)
+        }
     }
     
     func getMoreArticlesForPreviousQuery() {
@@ -70,7 +86,16 @@ extension CommonNewsListModel: NewsFetcherDelegate {
                 } else {
                     currentPage = nil
                 }
-                output?.didReceiveNewArticlesResult(.success(successResponse.articles))
+                articleRepository.save(articles: successResponse.articles, completion: { [weak self] isSuccess in
+                    self?.queue.async { [weak self] in
+                        guard let sSelf = self else { return }
+                        if isSuccess {
+                            sSelf.output?.didReceiveNewArticlesResult(.success(successResponse.articles))
+                        } else {
+                            sSelf.output?.didReceiveNewArticlesResult(.error("Saving error"))
+                        }
+                    }
+                })
             case .error(let errorResponse):
                 output?.didReceiveNewArticlesResult(.error(errorResponse.message))
             }

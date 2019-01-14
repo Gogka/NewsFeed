@@ -53,7 +53,6 @@ class CommonNewListCollectionHandler: NSObject, NewsListCollectionHandler {
             collection?.backgroundView = activityIndicator
             activityIndicator.startAnimating()
         }
-        guard !elements.isEmpty else { return }
         collection?.performBatchUpdates({
             let indexes = (0..<elements.count).map({ IndexPath(row: $0, section: 0) })
             elements = []
@@ -110,10 +109,17 @@ extension CommonNewListCollectionHandler: UICollectionViewDelegate, UICollection
 
 extension CommonNewListCollectionHandler: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach { elements[$0.row].prefetch() }
+        indexPaths.forEach { elements.element(at: $0.row)?.prefetch() }
     }
     
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach { elements[$0.row].cancelPrefetch() }
+        indexPaths.forEach { elements.element(at: $0.row)?.cancelPrefetch() }
+    }
+}
+
+extension Array {
+    func element(at index: Int) -> Element? {
+        guard index >= 0, index < count else { return nil }
+        return self[index]
     }
 }

@@ -21,6 +21,7 @@ class NewsListCommonPresenter: NewsListPresenter {
     
     func attach(view: NewsListView) {
         self.view = view
+        model.getArticles(byQuery: "")
     }
     
     func viewWillAppear() {

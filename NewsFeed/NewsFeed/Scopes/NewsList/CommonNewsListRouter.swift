@@ -12,7 +12,10 @@ import NewsKit
 class CommonNewsListRouter: NewsListRouter {
     static func createScope() -> NewsListViewController {
         let controller = NewsListViewController()
-        let model = CommonNewsListModel(fetcher: NewsFetcher(apiKey: "b59bc1f13f884301a259ebc4a7c68af2", cache: nil))
+        let queue = DispatchQueue(label: "com.igortomilin.CommonNewsListModel")
+        let model = CommonNewsListModel(fetcher: NewsFetcher(apiKey: "b59bc1f13f884301a259ebc4a7c68af2", queue: queue),
+                                        queue: queue,
+                                        articleRepository: CoreDataRepository.shared)
         let router = CommonNewsListRouter()
         let presenter = NewsListCommonPresenter(model: model, router: router)
         controller.presenter = presenter
