@@ -16,14 +16,19 @@ class CommonNewsListRouter: NewsListRouter {
         let model = CommonNewsListModel(fetcher: NewsFetcher(apiKey: "b59bc1f13f884301a259ebc4a7c68af2", queue: queue),
                                         queue: queue,
                                         articleRepository: CoreDataRepository.shared)
-        let router = CommonNewsListRouter()
+        let router = CommonNewsListRouter(controller: controller)
         let presenter = NewsListCommonPresenter(model: model, router: router)
         controller.presenter = presenter
         return controller
     }
+    private weak var controller: NewsListViewController?
+    
+    init(controller: NewsListViewController) {
+        self.controller = controller
+    }
     
     func navigateToDetails(withArticle article: Article, andCell cell: UICollectionViewCell) {
-        
+        controller?.navigationController?.pushViewController(CommonNewsDetailsRouter.createScope(article: article), animated: true)
     }
 
 }

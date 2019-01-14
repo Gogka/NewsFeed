@@ -52,6 +52,7 @@ class NewsElementViewModel {
     }
     
     func didTapCell(cell: UICollectionViewCell) {
+        isSeen = true
         didTapCellAction(cell)
     }
     

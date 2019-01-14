@@ -42,6 +42,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         newsTitle?.textColor = .white
+        newsTitle?.font = UIFont.systemFont(ofSize: 17)
         newsTitle?.text = "Seen"
         newsImageVIew?.contentMode = .scaleAspectFill
         contentView.layer.cornerRadius = 8

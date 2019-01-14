@@ -92,7 +92,6 @@ extension CommonNewListCollectionHandler: UICollectionViewDataSource {
 extension CommonNewListCollectionHandler: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         elements[indexPath.row].didTapCell(cell: collectionView.cellForItem(at: indexPath)!)
-        elements[indexPath.row].isSeen = true
         collectionView.reloadItems(at: [indexPath])
     }
     
