@@ -12,10 +12,7 @@ class InsetsLabel: UILabel {
 
     var insets: UIEdgeInsets = .zero {
         didSet {
-            if oldValue != insets {
-                setNeedsDisplay()
-                sizeToFit()
-            }
+            if oldValue != insets { setNeedsDisplay() }
         }
     }
     

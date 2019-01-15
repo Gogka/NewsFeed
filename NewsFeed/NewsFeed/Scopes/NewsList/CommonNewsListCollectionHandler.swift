@@ -27,6 +27,7 @@ class CommonNewListCollectionHandler: NSObject, NewsListCollectionHandler {
         collection.backgroundView = backgroundView
         collection.register(UINib(nibName: "NewsCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: CommonNewListCollectionHandler.cellIdentifier)
         collection.delegate = self
+        collection.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         collection.dataSource = self
         collection.prefetchDataSource = self
         collection.isPrefetchingEnabled = true

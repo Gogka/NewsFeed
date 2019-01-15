@@ -46,12 +46,12 @@ class NewsDetailsViewController: UIViewController {
         newsUrl?.isUserInteractionEnabled = true
         newsUrl?.insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
         newsPublishedDate?.insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-        newsDescription?.insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        view.layoutIfNeeded()
         let item = UIBarButtonItem()
         item.target = self
         item.action = #selector(didTapBack(_:))
         item.tintColor = .white
-        navigationItem.backBarButtonItem = item
+        navigationController?.navigationBar.topItem?.backBarButtonItem = item
     }
     
     @objc
