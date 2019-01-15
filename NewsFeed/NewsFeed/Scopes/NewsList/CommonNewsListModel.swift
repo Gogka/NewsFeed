@@ -37,27 +37,34 @@ class CommonNewsListModel: NewsListModel {
     
     
     func getArticles(byQuery query: String) {
-        if query.isEmpty {
-            fetcher.invalidate()
-            currentPage = nil
-            loadingPage = nil
-            articleRepository.fetchtArticles(completion: { [weak self] articles in
-                self?.queue.async { [weak self] in
-                    guard let sSelf = self else { return }
-                    sSelf.output?.didReceiveNewArticlesResult(.success(articles))
-                }
-            })
-        } else {
-            currentPage = 1
-            loadingPage = 1
-            fetcher.fetchArticles(byQuery: query, page: currentPage!, pageSize: pageSize)
+        queue.async { [weak self] in
+            guard let sSelf = self else { return }
+            if query.isEmpty {
+                sSelf.fetcher.invalidate()
+                sSelf.currentPage = nil
+                sSelf.loadingPage = nil
+                sSelf.articleRepository.fetchtArticles(completion: { [weak self] articles in
+                    self?.queue.async { [weak self] in
+                        guard let sSelf = self else { return }
+                        sSelf.output?.didReceiveNewArticlesResult(.success(articles))
+                    }
+                })
+            } else {
+                sSelf.currentPage = 1
+                sSelf.loadingPage = 1
+                sSelf.fetcher.fetchArticles(byQuery: query, page: sSelf.currentPage!, pageSize: sSelf.pageSize)
+            }
         }
     }
     
     func getMoreArticlesForPreviousQuery() {
-        guard loadingPage != currentPage, let previousQuery = self.previousQuery, let page = currentPage else { return }
-        loadingPage = page
-        fetcher.fetchArticles(byQuery: previousQuery, page: page, pageSize: pageSize)
+        queue.async { [weak self] in
+            guard let sSelf = self else { return }
+            guard sSelf.loadingPage != sSelf.currentPage, let previousQuery = sSelf.previousQuery, let page = sSelf.currentPage else { return }
+            sSelf.loadingPage = page
+            sSelf.fetcher.fetchArticles(byQuery: previousQuery, page: page, pageSize: sSelf.pageSize)
+            
+        }
     }
     
     

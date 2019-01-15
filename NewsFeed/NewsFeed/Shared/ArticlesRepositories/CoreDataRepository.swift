@@ -21,17 +21,12 @@ class CoreDataRepository: ArticleRepository {
     }
     
     func save(articles: [Article], completion: ((Bool) -> ())?) {
-        queue.async {
+        queue.async(flags: .barrier) {
             let context = self.container.viewContext
-            let fetchRequest = NSFetchRequest<CDArticle>(entityName: "CDArticle")
-            if let articles = try? self.container.viewContext.fetch(fetchRequest) {
-                articles.forEach({ context.delete($0) })
-                do {
-                    try context.save()
-                } catch {
-                    completion?(false)
-                }
-            }
+            let fetchRequestCDArticle = NSFetchRequest<CDArticle>(entityName: "CDArticle")
+            let fetchRequestCDSource = NSFetchRequest<CDSource>(entityName: "CDSource")
+            (try? self.container.viewContext.fetch(fetchRequestCDArticle)).map({ $0.forEach({ context.delete($0) }) })
+            (try? self.container.viewContext.fetch(fetchRequestCDSource)).map({ $0.forEach({ context.delete($0) }) })
             articles.forEach {
                 let cdArticle = CDArticle(context: context)
                 cdArticle.articleDescription = $0.description
@@ -57,7 +52,7 @@ class CoreDataRepository: ArticleRepository {
     }
     
     func fetchtArticles(completion: @escaping ([Article]) -> ()) {
-        queue.async {
+        queue.async(flags: .barrier) {
             let fetchRequest = NSFetchRequest<CDArticle>(entityName: "CDArticle")
             let sorting = NSSortDescriptor(key: "publishedDate", ascending: false)
             fetchRequest.sortDescriptors = [sorting]
